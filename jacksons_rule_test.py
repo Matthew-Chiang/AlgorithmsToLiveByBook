@@ -33,17 +33,15 @@ def jacksons_rule(loads):
     ending_loads = []
 
     while loads:
-        if len(loads) == 1:
-            starting_loads.append(loads[0])
-            loads = []
-        else:
-            start = min(loads, key=lambda x: x[0])
-            loads.pop(loads.index(start))
-            starting_loads.append(start)
+        shortest_wash = min(loads, key=lambda x: x[0])
+        shortest_dry = min(loads, key=lambda x: x[1])
 
-            end = min(loads, key=lambda x: x[1])
-            loads.pop(loads.index(end))
-            ending_loads.append(end)
+        if shortest_wash[0] <= shortest_dry[1]:
+            starting_loads.append(shortest_wash)
+            loads.pop(loads.index(shortest_wash))
+        else:
+            ending_loads.append(shortest_dry)
+            loads.pop(loads.index(shortest_dry))
 
     return starting_loads + list(reversed(ending_loads))
 
